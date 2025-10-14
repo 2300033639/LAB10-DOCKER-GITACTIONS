@@ -1,0 +1,11 @@
+package com.klef.dev.service;
+
+import com.klef.dev.entity.Customer;
+
+public interface CustomerService {
+
+	Customer addCustomer(Customer customer);
+
+	Customer getCustomerById(int id);
+
+}

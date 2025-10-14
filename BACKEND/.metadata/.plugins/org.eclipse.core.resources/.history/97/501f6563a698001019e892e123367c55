@@ -1,0 +1,93 @@
+package com.klef.dev.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.klef.dev.entity.Customer;
+import com.klef.dev.service.CustomerService;
+
+@RestController
+@RequestMapping("/customerapi/")
+@CrossOrigin(origins = "*")
+public class CustomerController {
+
+    @Autowired
+    private CustomerService customerService;
+
+    @GetMapping("/")
+    public String home() {
+        return "Customer API running";
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
+        Customer saved = customerService.addCustomer(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Customer>> getAll() {
+        List<Customer> customers = customerService.getAllCustomers();
+        return ResponseEntity.ok(customers);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getById(@PathVariable int id) {
+        Customer c = customerService.getCustomerById(id);
+        if (c != null) {
+            return ResponseEntity.ok(c);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body("Customer with ID " + id + " not found.");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> update(@RequestBody Customer customer) {
+        Customer existing = customerService.getCustomerById(customer.getId());
+        if (existing != null) {
+            Customer updated = customerService.updateCustomer(customer);
+            return ResponseEntity.ok(updated);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body("Cannot update. Customer with ID " + customer.getId() + " not found.");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id) {
+        Customer existing = customerService.getCustomerById(id);
+        if (existing != null) {
+            customerService.deleteCustomerById(id);
+            return ResponseEntity.ok("Customer with ID " + id + " deleted successfully.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body("Cannot delete. Customer with ID " + id + " not found.");
+    }
+
+    @PutMapping("/block/{id}")
+    public ResponseEntity<String> blockCustomer(@PathVariable int id) {
+        Customer c = customerService.getCustomerById(id);
+        if (c != null) {
+            c.setBlocked(true);
+            customerService.updateCustomer(c);
+            return ResponseEntity.ok("Customer with ID " + id + " blocked successfully.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body("Customer with ID " + id + " not found.");
+    }
+
+    @PutMapping("/unblock/{id}")
+    public ResponseEntity<String> unblockCustomer(@PathVariable int id) {
+        Customer c = customerService.getCustomerById(id);
+        if (c != null) {
+            c.setBlocked(false);
+            customerService.updateCustomer(c);
+            return ResponseEntity.ok("Customer with ID " + id + " unblocked successfully.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body("Customer with ID " + id + " not found.");
+    }
+}

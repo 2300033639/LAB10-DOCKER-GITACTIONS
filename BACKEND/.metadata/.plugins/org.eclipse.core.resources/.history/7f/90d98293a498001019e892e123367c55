@@ -1,0 +1,72 @@
+package com.klef.dev.service;
+
+
+import java.util.List;
+import java.util.Optional;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+import com.klef.dev.entity.Customer;
+import com.klef.dev.repository.CustomerRepository;
+
+
+@Service
+public class CustomerServiceImpl implements CustomerService {
+
+
+@Autowired
+private CustomerRepository customerRepository;
+
+
+public Customer addCustomer(Customer customer) {
+return customerRepository.save(customer);
+}
+
+
+public List<Customer> getAllCustomers() {
+return customerRepository.findAll();
+}
+
+
+public Customer getCustomerById(int id) {
+Optional<Customer> opt = customerRepository.findById(id);
+return opt.orElse(null);
+}
+
+
+@Override
+public Customer updateCustomer(Customer customer) {
+return customerRepository.save(customer);
+}
+
+
+@Override
+public void deleteCustomerById(int id) {
+customerRepository.deleteById(id);
+}
+
+
+@Override
+public Customer blockCustomer(int id) {
+Customer c = getCustomerById(id);
+if (c != null) {
+c.setStatus("BLOCKED");
+return customerRepository.save(c);
+}
+return null;
+}
+
+
+@Override
+public Customer unblockCustomer(int id) {
+Customer c = getCustomerById(id);
+if (c != null) {
+c.setStatus("ACTIVE");
+return customerRepository.save(c);
+}
+return null;
+}
+}

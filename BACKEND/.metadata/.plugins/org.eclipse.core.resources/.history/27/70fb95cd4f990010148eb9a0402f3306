@@ -1,0 +1,42 @@
+package com.klef.dev.controller;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.klef.dev.entity.Customer;
+import com.klef.dev.service.CustomerService;
+
+@RestController
+@RequestMapping("/customerapi")
+@CrossOrigin(origins = "*")
+public class CustomerController {
+
+    @Autowired
+    private CustomerService customerService;
+
+    @GetMapping("/all")
+    public List<Customer> getAllCustomers() {
+        return customerService.getAllCustomers();
+    }
+
+    @PostMapping("/add")
+    public Customer addCustomer(@RequestBody Customer c) {
+        return customerService.addCustomer(c);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteCustomer(@PathVariable int id) {
+        customerService.deleteCustomer(id);
+        return "Customer deleted successfully!";
+    }
+
+    @PutMapping("/block/{id}")
+    public Customer blockCustomer(@PathVariable int id) {
+        return customerService.blockCustomer(id);
+    }
+
+    @PutMapping("/unblock/{id}")
+    public Customer unblockCustomer(@PathVariable int id) {
+        return customerService.unblockCustomer(id);
+    }
+}
