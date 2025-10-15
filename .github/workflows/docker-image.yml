@@ -52,8 +52,4 @@ jobs:
             sudo docker-compose down
             sudo docker-compose pull
             sudo docker-compose up -d --build
-<<<<<<< HEAD
           EOF
-=======
-          EOF
->>>>>>> c2b6a72041bb586b417d2890f35cfd9011a1620c
