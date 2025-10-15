@@ -1,7 +1,7 @@
 # Stage 1: Build the app
 FROM eclipse-temurin:21-jdk AS builder
 
-WORKDIR /app
+WORKDIR /BACKEND
 
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
@@ -12,8 +12,8 @@ RUN ./mvnw clean package -DskipTests
 # Stage 2: Run the app
 FROM eclipse-temurin:21-jdk
 
-WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
+WORKDIR /BACKEND
+COPY --from=builder /BACKEND/target/*.jar app.jar
 
 EXPOSE 2004
 
