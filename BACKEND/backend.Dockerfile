@@ -8,7 +8,7 @@ COPY airlinemanagement/.mvn/ .mvn
 COPY airlinemanagement/mvnw airlinemanagement/pom.xml ./
 
 # Copy source code
-COPY AIRLINEMANAGMENT/src ./src
+COPY airlinemanagement/src ./src
 
 # Build the app
 RUN ./mvnw clean package -DskipTests
