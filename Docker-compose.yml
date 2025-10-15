@@ -5,18 +5,16 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Uday@123
       MYSQL_DATABASE: airline_db
-      # MYSQL_USER: klu
-      # MYSQL_PASSWORD: klu
     ports:
       - "3307:3306"
     volumes:
-      - mysql-data:/var/lib/mysql   # volume added here
+      - mysql-data:/var/lib/mysql
 
   backend:
     container_name: springboot
     build:
       context: ./BACKEND
-      dockerfile: 2300033639/BACKEND/backend.Dockerfile
+      dockerfile: backend.Dockerfile   # relative to ./BACKEND
     ports:
       - "2025:2000"
     depends_on:
@@ -27,12 +25,11 @@ services:
     container_name: react
     build:
       context: ./frontendapp
-      dockerfile: 2300033639/frontend/frontend.Dockerfile
+      dockerfile: frontend.Dockerfile   # relative to ./frontendapp
     ports:
       - "3000:80"
     depends_on:
       - backend
 
-# Declare volumes at the bottom
 volumes:
   mysql-data:
