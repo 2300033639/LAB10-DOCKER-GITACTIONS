@@ -25,8 +25,8 @@ jobs:
       - name: Build and push backend image
         uses: docker/build-push-action@v6
         with:
-          context: ./BACKEND
-          file: ./BACKEND/backend.Dockerfile
+          context: ./BACKEND/airlinemanagement
+          file: ./BACKEND/airlinemanagement/backend.Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/dockeraws-backend:latest
 
