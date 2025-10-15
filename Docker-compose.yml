@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   mysqldb:
     container_name: mysql-db
@@ -13,8 +15,8 @@ services:
   backend:
     container_name: springboot
     build:
-      context: ./BACKEND
-      dockerfile: backend.Dockerfile   # relative to ./BACKEND
+      context: ./BACKEND/airlinemanagement
+      dockerfile: backend.Dockerfile
     ports:
       - "2025:2000"
     depends_on:
@@ -25,7 +27,7 @@ services:
     container_name: react
     build:
       context: ./frontendapp
-      dockerfile: frontend.Dockerfile   # relative to ./frontendapp
+      dockerfile: frontend.Dockerfile
     ports:
       - "3000:80"
     depends_on:
