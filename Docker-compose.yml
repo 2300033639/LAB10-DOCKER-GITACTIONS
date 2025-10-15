@@ -3,8 +3,8 @@ services:
     container_name: mysql-db
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: docker
-      MYSQL_DATABASE: studentdb
+      MYSQL_ROOT_PASSWORD: Uday@123
+      MYSQL_DATABASE: airline_db
       # MYSQL_USER: klu
       # MYSQL_PASSWORD: klu
     ports:
@@ -15,7 +15,7 @@ services:
   backend:
     container_name: springboot
     build:
-      context: ./STUDENTAPI-SPRINGBOOT
+      context: ./BACKEND
       dockerfile: 2300033639/BACKEND/backend.Dockerfile
     ports:
       - "2025:2000"
@@ -26,7 +26,7 @@ services:
   frontend:
     container_name: react
     build:
-      context: ./STUDENTAPI-REACT
+      context: ./frontendapp
       dockerfile: 2300033639/frontend/frontend.Dockerfile
     ports:
       - "3000:80"
