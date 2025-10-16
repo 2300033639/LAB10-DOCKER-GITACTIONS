@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 
 services:
   mysqldb:
@@ -15,10 +15,10 @@ services:
   backend:
     container_name: springboot
     build:
-      context: ./BACKEND/airlinemanagement
-      dockerfile: backend.Dockerfile
+      context: ./BACKEND/airlinemanagement    # ✅ correct
+      dockerfile: backend.Dockerfile          # ✅ relative to the context folder
     ports:
-      - "2025:2000"
+      - "2025:2004"                           # ✅ match EXPOSE in Dockerfile
     depends_on:
       - mysqldb
     restart: on-failure
