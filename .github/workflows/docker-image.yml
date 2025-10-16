@@ -46,10 +46,23 @@ jobs:
       - name: Deploy to AWS EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem ec2-user@${{ secrets.AWS_IP }} << 'EOF'
-            cd DOCKER-GITACTIONS-AWS || git clone https://github.com/${{ github.repository }}.git
+            # Clone the repo if it doesn't exist, otherwise navigate into it
+            if [ ! -d "DOCKER-GITACTIONS-AWS" ]; then
+              git clone https://github.com/${{ github.repository }}.git DOCKER-GITACTIONS-AWS
+            fi
             cd DOCKER-GITACTIONS-AWS
+            
+            # Pull the latest changes from main branch
             git pull origin main
-            sudo docker-compose down
+            
+            # Use the credentials stored in secrets to log in to Docker Hub
+            # This ensures the EC2 instance can pull your private images
+            echo "${{ secrets.DOCKER_SECRET }}" | sudo docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+            
+            # Pull the newest images from Docker Hub
             sudo docker-compose pull
+            
+            # Stop and remove old containers, then start new ones
+            sudo docker-compose down
             sudo docker-compose up -d --build
           EOF
