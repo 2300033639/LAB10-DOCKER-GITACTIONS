@@ -13,16 +13,15 @@ services:
       - mysql-data:/var/lib/mysql
 
   backend:
-  container_name: springboot
-  build:
-    context: ./BACKEND/airlinemanagement     # ✅ go inside this folder
-    dockerfile: backend.Dockerfile          # ✅ file inside that folder
-  ports:
-    - "2025:2004"
-  depends_on:
-    - mysqldb
-  restart: on-failure
-
+    container_name: springboot
+    build:
+      context: ./BACKEND
+      dockerfile: backend.Dockerfile
+    ports:
+      - "2025:2004"   # match the EXPOSE 2004 in your Dockerfile
+    depends_on:
+      - mysqldb
+    restart: on-failure
 
   frontend:
     container_name: react

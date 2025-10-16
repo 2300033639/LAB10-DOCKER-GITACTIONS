@@ -4,11 +4,14 @@ FROM eclipse-temurin:21-jdk AS builder
 WORKDIR /app
 
 # Copy Maven wrapper and pom.xml
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+COPY airlinemanagement/.mvn/ .mvn
+COPY airlinemanagement/mvnw airlinemanagement/pom.xml ./
+
+# ✅ Give execute permission to mvnw
+RUN chmod +x mvnw
 
 # Copy source code
-COPY src ./src
+COPY airlinemanagement/src ./src
 
 # Build the app
 RUN ./mvnw clean package -DskipTests
